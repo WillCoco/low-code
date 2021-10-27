@@ -1,0 +1,20 @@
+{
+  "name": "low_ode",
+  "version": "0.1.0",
+  "description": "跨平台地带吗",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "low code",
+    "monorepo"
+  ],
+  "author": "kexu9",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
