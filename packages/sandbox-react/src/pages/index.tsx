@@ -5,7 +5,8 @@ import 'react-resizable/css/styles.css';
 import { nanoid } from 'nanoid'
 import React from 'react';
 import {Button, Checkbox} from 'antd';
-import ComponentsSourcePanel from '../components/components_source';
+import EditorTools from '../components/editor_tools';
+import EditorLayoutRender from '../components/editor_layout_render';
 import 'antd/dist/antd.css'
 // import GridLayout from 'react-grid-layout';
 
@@ -14,11 +15,7 @@ const ReactGridLayout = WidthProvider(ResponsiveGridLayout);
 
 export default () => {
   // droppingItem
-  const [droppingItem, setDroppingItem] = React.useState({w: 1, h: 1})
-
-  const onDragStop = (e: Event) => {
-    console.log(e, 'ee')
-  }
+  const [droppingItem, setDroppingItem] = React.useState<Record<string, number|string>>({w: 1, h: 1})
 
   // layout
   const initLayout = {lg: [
@@ -54,38 +51,18 @@ export default () => {
       ))
   }
 
-  const dragStartHandler = (info) => {
+  const dragStartHandler = (info: Record<string, string>) => {
     setDroppingItem({...info, i: nanoid()})
   }
 
   return (
     <div style={{}} className="drawing-board-container" >
-      {/* 源组件面板 */}
-      <ComponentsSourcePanel onDragStart={dragStartHandler} />
-      {/* 拖拽面板 */}
-      <ReactGridLayout
-        isDroppable
-        preventCollision
-        isBounded
-        layouts={layout}
-        breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-        cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
-        // resizeHandle=
-        compactType="vertical"
-        // cols={12}
-        rowHeight={40}
-        verticalCompact={false}
-        // onDragStop={onDragStop}
-        onDrop={onDrop}
-        // onDropDragOver={(e) => {console.log(e, 'eeeee'); e.preventDefault()}}
-        droppingItem={droppingItem}
-        onLayoutChange={console.log}
-        style={{border: `1px solid red`, display: 'flex', flex: 1, height: '100%'}}git 
-      >
-        {getRender(layout)}
-      </ReactGridLayout>
-      {/* 组件属性面板 */}
-      <ComponentsSourcePanel onDragStart={dragStartHandler} />
+      <EditorTools dragStartHandler={dragStartHandler}>
+        <EditorLayoutRender
+          droppingItem={droppingItem}
+          initLayout={initLayout}
+        />
+      </EditorTools>
     </div>
   );
 }
